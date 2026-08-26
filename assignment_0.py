@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from models import pendulum as model
-from integrators import explicit_euler as integrator
+from integrators import rk4 as integrator
 
 # Basic simulation of the pendulum
 
