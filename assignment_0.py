@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from models import pendulum as model
+from integrators import explicit_euler as integrator
 
 # Basic simulation of the pendulum
 
@@ -40,8 +41,15 @@ for timestep, timestep_key in zip(timestep_vals,timestep_keys):
 
     # simulation loop
     for step, t in enumerate(time_traj[:-1]):
-        state_traj[:, step + 1] = state_traj[:, step] + timestep * model.dynamics(
-            t, state_traj[:, step], params
+        # state_traj[:, step + 1] = state_traj[:, step] + timestep * model.dynamics(
+            # t, state_traj[:, step], params
+        # )
+        state_traj[:, step + 1] = integrator.step(
+            state_traj[:, step],
+            t,
+            model.dynamics,
+            timestep,
+            params
         )
 
     time_trajs[str(timestep_key)] = time_traj
