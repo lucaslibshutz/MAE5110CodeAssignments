@@ -11,7 +11,7 @@ def dynamics(t, state, params):
 
 
     #TODO: add if statement if height is at ground, and velocity < 0, add bounce up at that instant
-    if height == 0 and velocity < 0:
+    if height < 0:
         acceleration = -gravity - (ground_spring/mass * height) - (ground_damping/mass * velocity)
     else:
         acceleration = -gravity
