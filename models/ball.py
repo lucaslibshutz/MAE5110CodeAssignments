@@ -35,11 +35,14 @@ def calculate_energy(state, params):
     """Compute energies for a state ``(2,)`` or trajectory ``(2, N)``."""
     gravity = params["gravity"]
     mass = params["mass"]
+    ground_spring = params["ground_spring"]
 
     height = state[0]
     velocity = state[1]
 
     kinetic_energy = 0.5 * mass * velocity**2
-    potential_energy = mass * gravity * height
+    gravitational_energy = mass * gravity * height
+    # spring only acts when below 0, so this is why we use `np.minimum()`` here
+    spring_energy = 0.5 * ground_spring * np.minimum(height, 0.0) ** 2
 
-    return kinetic_energy, potential_energy
+    return kinetic_energy, gravitational_energy + spring_energy
