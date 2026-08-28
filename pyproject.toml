@@ -8,9 +8,16 @@ dependencies = [
     "ipython>=9.16.1",
     "matplotlib",
     "numpy",
+    "ruff>=0.16.5",
 ]
 
 [dependency-groups]
 dev = [
     "pytest",
+]
+
+[tool.ruff.lint]
+
+ignore = [
+  "I001" # ignores import error things and vice versa
 ]

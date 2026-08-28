@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from models import pendulum as model
-from integrators import rk4 as integrator
+from integrators import explicit_euler as integrator
 
 # Basic simulation of the pendulum
 
@@ -104,13 +104,24 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
-# TODO: make a phase portrait plot
-
 theta, theta_dot = state_trajs[best_timestep]
+
+th_max = 1.2 * np.max(np.abs(theta))
+omega_max = 1.2 * np.max(np.abs(theta_dot))
+
+TH, W = np.meshgrid(
+    np.linspace(-th_max, th_max, 30),
+    np.linspace(-omega_max, omega_max, 30)
+)
+
+dTH, dW = model.dynamics(0.0, np.array([TH, W]), params) # -> (2, 30, 30)
+
+speed = np.hypot(dTH, np.min(dW,0))
 
 plt.figure()
 plt.plot(theta, theta_dot, lw=0.8)
 plt.plot(theta[0], theta_dot[0], "o", label="start")
+plt.streamplot(TH, W, dTH, dW, color=speed, cmap="viridis", linewidth=0.7,density=1.1, arrowsize=0.8, zorder=0)
 plt.xlabel(r"$\theta$ (rad)")
 plt.ylabel(r"$\dot{\theta}$ (rad/s)")
 plt.title(rf"Phase portrait, $\Delta t = 10^{{{best_timestep}}}$")
