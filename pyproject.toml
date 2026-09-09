@@ -8,7 +8,7 @@ dependencies = [
     "ipython>=9.16.1",
     "matplotlib",
     "numpy",
-    "ruff>=0.16.5",
+    "ruff"
 ]
 
 [dependency-groups]
